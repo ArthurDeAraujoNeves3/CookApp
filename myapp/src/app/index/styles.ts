@@ -13,10 +13,26 @@ export const styles = StyleSheet.create({
         fontSize: theme.fonts.size.heading.xl,
         lineHeight: 44,
         marginTop: 42,
+        fontFamily: theme.fonts.family.bold,
     },
     subtitle: {
 
+        fontFamily: theme.fonts.family.regular,
+    },
+    message: {
+
+        fontFamily: theme.fonts.family.regular,
         fontSize: theme.fonts.size.body.md,
+        marginTop: 12,
+        marginBottom: 38,
+        color: theme.colors.gray_400,
+    },
+    ingredients: {
+
+        flexWrap: "wrap",
+        flexDirection: "row",
+        paddingBottom: 200,
+        gap: 12,
     },
 
 });
