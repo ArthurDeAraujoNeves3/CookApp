@@ -1,2 +1,2 @@
 "# CookApp" 
-Tempo da live => 56:35
+Tempo da live => 01:19:00
