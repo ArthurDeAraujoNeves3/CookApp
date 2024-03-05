@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { Ingredient } from "@/components/Ingredient/ingredient";
+import { Selected } from "@/components/Selected/index";
 import { styles } from "./styles";
 
 //Com o expo router, usamdos o export default
@@ -17,6 +18,11 @@ export default function Index() {
         };
 
         setSelected((state) => [...state, value]); 
+    };
+    function handleClearSelected() {
+
+        
+        setSelected([]);
     };
 
     return (
@@ -38,6 +44,8 @@ export default function Index() {
                 ))}
             
             </ScrollView>
+
+            <Selected quantity={selected.length} onClear={handleClearSelected} onSearch={() => {}}/>
 
         </View>
     )
