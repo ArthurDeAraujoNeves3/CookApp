@@ -1,13 +1,16 @@
-import { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { useState, useEffect } from "react";
+import { View, Text, ScrollView, Alert } from "react-native";
+import { router } from "expo-router";
 import { Ingredient } from "@/components/Ingredient/ingredient";
 import { Selected } from "@/components/Selected/index";
 import { styles } from "./styles";
+import { services } from "@/services";
 
 //Com o expo router, usamdos o export default
 export default function Index() {
 
     const[ selected, setSelected ] = useState<string[]>([]);
+    const[ ingredients, setIngredients ] = useState<IngredientResponse[] | any>([])
 
     function handleToggleSelected(value: string) {
 
@@ -21,9 +24,21 @@ export default function Index() {
     };
     function handleClearSelected() {
 
+        Alert.alert("Limpar", "Deseja limpar tudo?", [
+            { text: "Nao", style: "cancel"},
+            { text: "Sim", onPress: () => {setSelected([]);}}
+        ]);
         
-        setSelected([]);
     };
+    function handleSearch() {
+
+        router.navigate("/recipes/" + selected);
+    };
+
+    useEffect(() => {
+
+        services.ingredientes.findAll().then(setIngredients);
+    }, []);
 
     return (
 
@@ -38,14 +53,14 @@ export default function Index() {
 
             <ScrollView contentContainerStyle={styles.ingredients} showsVerticalScrollIndicator={false}>
 
-                {Array.from({length: 100}).map((item, index) => (
+                {ingredients.map((item: any) => (
 
-                    <Ingredient name="Tomate" image="" selected={selected.includes(String(index))} onPress={() => {handleToggleSelected(String(index))}} key={index}/>
+                    <Ingredient name={item.name} image={`${services.storage.imagePath}/${item.image}`} selected={selected.includes(item.id)} onPress={() => {handleToggleSelected(item.id)}} key={item.id}/>
                 ))}
             
             </ScrollView>
 
-            <Selected quantity={selected.length} onClear={handleClearSelected} onSearch={() => {}}/>
+            {selected.length > 0 && (<Selected quantity={selected.length} onClear={handleClearSelected} onSearch={handleSearch}/>)}
 
         </View>
     )
